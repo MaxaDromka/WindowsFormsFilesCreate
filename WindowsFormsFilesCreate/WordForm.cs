@@ -27,7 +27,7 @@ namespace WindowsFormsFilesCreate
         private void button1_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-            saveFileDialog1.Filter = "Word Document|*.doc";
+            saveFileDialog1.Filter = "Word Document|*.docx";
             saveFileDialog1.Title = "Save a Word Document";
             saveFileDialog1.ShowDialog();
 
