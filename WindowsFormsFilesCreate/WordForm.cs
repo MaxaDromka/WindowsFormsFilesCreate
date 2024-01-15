@@ -43,7 +43,7 @@ namespace WindowsFormsFilesCreate
                     Run run = para.AppendChild(new Run());
                     run.AppendChild(new Text(text));
                 }
-                MessageBox.Show("File saved successfully.");
+                MessageBox.Show("Файл успешно создан.");
             }
             this.Close();
         }

@@ -30,24 +30,22 @@ namespace WindowsFormsFilesCreate
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //string text = textBox1.Text;
-            //SaveFileDialog saveDialog = new SaveFileDialog();
-            //saveDialog.Filter = "PDF Documents|*.pdf";
-            //if (saveDialog.ShowDialog() == DialogResult.OK)
-            //{
-            //    PdfDocument pdf = new PdfDocument();
-            //    PdfPage page = pdf.AddPage();
-            //    XGraphics gfx = XGraphics.FromPdfPage(page);
-            //    XFont font = new XFont("Arial", 12);
-
-            //    gfx.DrawString(text, font, XBrushes.Black,
-            //        new XRect(0, 0, page.Width.Point, page.Height.Point),
-            //        XStringFormats.TopLeft);
-
-            //    pdf.Save(saveDialog.FileName);
-            //    MessageBox.Show("File saved successfully.");
-            //}
-            //this.Close();
+            string text = textBox1.Text;
+            SaveFileDialog saveDialog = new SaveFileDialog();
+            saveDialog.Filter = "PDF Document|*.pdf";
+            if (saveDialog.ShowDialog() == DialogResult.OK)
+            {
+                using (FileStream fs = new FileStream(saveDialog.FileName, FileMode.Create, FileAccess.Write, FileShare.None))
+                {
+                    Document document = new Document();
+                    PdfWriter writer = PdfWriter.GetInstance(document, fs);
+                    document.Open();
+                    document.Add(new Paragraph(text));
+                    document.Close();
+                }
+                MessageBox.Show("Файл успешно создан.");
+            }
+            this.Close();
         }
 
         private void button2_Click(object sender, EventArgs e)
