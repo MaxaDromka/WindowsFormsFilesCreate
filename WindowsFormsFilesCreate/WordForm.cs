@@ -10,16 +10,11 @@ using System.Windows.Forms;
 
 namespace WindowsFormsFilesCreate
 {
-    public partial class Form1 : Form
+    public partial class WordForm : Form
     {
-        public Form1()
+        public WordForm()
         {
             InitializeComponent();
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }
