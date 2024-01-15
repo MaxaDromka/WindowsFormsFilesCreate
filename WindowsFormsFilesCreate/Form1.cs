@@ -30,7 +30,8 @@ namespace WindowsFormsFilesCreate
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+            PdfForm pdfForm = new PdfForm();
+            pdfForm.ShowDialog();
         }
     }
 }
