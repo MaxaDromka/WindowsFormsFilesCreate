@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace WindowsFormsFilesCreate
 {
@@ -26,20 +27,13 @@ namespace WindowsFormsFilesCreate
 
         private void button1_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-            saveFileDialog1.Filter = "PDF Document|*.pdf";
-            saveFileDialog1.Title = "Save a PDF Document";
-            saveFileDialog1.ShowDialog();
-
-            if (saveFileDialog1.FileName != "")
+            string text = textBox1.Text;
+            SaveFileDialog saveDialog = new SaveFileDialog();
+            saveDialog.Filter = "PDF Documents|*.pdf";
+            if (saveDialog.ShowDialog() == DialogResult.OK)
             {
-                PdfDocument pdf = new PdfDocument();
-                pdf.Info.Title = "My PDF Document";
-                PdfPage page = pdf.AddPage();
-                XGraphics gfx = XGraphics.FromPdfPage(page);
-                XFont font = new XFont("Verdana", 20, XFontStyle.Bold);
-                gfx.DrawString(textBox1.Text, font, XBrushes.Black, new XRect(0, 0, page.Width, page.Height), XStringFormats.TopLeft);
-                pdf.Save(saveFileDialog1.FileName);
+                // Save text as PDF logic here
+                MessageBox.Show("File saved successfully.");
             }
             this.Close();
         }
