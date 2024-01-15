@@ -6,11 +6,14 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using PdfSharp.Pdf;
+using PdfSharp.Drawing;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using iTextSharp.text;
 
 namespace WindowsFormsFilesCreate
 {
@@ -33,7 +36,16 @@ namespace WindowsFormsFilesCreate
             saveDialog.Filter = "PDF Documents|*.pdf";
             if (saveDialog.ShowDialog() == DialogResult.OK)
             {
-                File.WriteAllText(saveDialog.FileName, text);
+                PdfDocument pdf = new PdfDocument();
+                PdfPage page = pdf.AddPage();
+                XGraphics gfx = XGraphics.FromPdfPage(page);
+                XFont font = new XFont("Arial", 12);
+
+                gfx.DrawString(text, font, XBrushes.Black,
+                    new XRect(0, 0, page.Width.Point, page.Height.Point),
+                    XStringFormats.TopLeft);
+
+                pdf.Save(saveDialog.FileName);
                 MessageBox.Show("File saved successfully.");
             }
             this.Close();
