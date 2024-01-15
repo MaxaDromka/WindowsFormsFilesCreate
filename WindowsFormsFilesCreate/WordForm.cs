@@ -5,10 +5,13 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using DocumentFormat.OpenXml;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace WindowsFormsFilesCreate
 {
@@ -26,17 +29,21 @@ namespace WindowsFormsFilesCreate
 
         private void button1_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-            saveFileDialog1.Filter = "Word Document|*.docx";
-            saveFileDialog1.Title = "Save a Word Document";
-            saveFileDialog1.ShowDialog();
-
-            if (saveFileDialog1.FileName != "")
+            string text = textBox1.Text;
+            SaveFileDialog saveDialog = new SaveFileDialog();
+            saveDialog.Filter = "Word Document|*.docx";
+            if (saveDialog.ShowDialog() == DialogResult.OK)
             {
-                using (StreamWriter sw = new StreamWriter(saveFileDialog1.OpenFile()))
+                using (WordprocessingDocument wordDocument = WordprocessingDocument.Create(saveDialog.FileName, WordprocessingDocumentType.Document))
                 {
-                    sw.Write(textBox1.Text);
+                    MainDocumentPart mainPart = wordDocument.AddMainDocumentPart();
+                    mainPart.Document = new Document();
+                    Body body = mainPart.Document.AppendChild(new Body());
+                    Paragraph para = body.AppendChild(new Paragraph());
+                    Run run = para.AppendChild(new Run());
+                    run.AppendChild(new Text(text));
                 }
+                MessageBox.Show("File saved successfully.");
             }
             this.Close();
         }
