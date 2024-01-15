@@ -19,7 +19,8 @@ namespace WindowsFormsFilesCreate
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            WordForm wordForm = new WordForm();
+            wordForm.ShowDialog();
         }
     }
 }
