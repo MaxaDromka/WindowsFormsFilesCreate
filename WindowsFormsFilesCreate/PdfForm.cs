@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,7 +33,7 @@ namespace WindowsFormsFilesCreate
             saveDialog.Filter = "PDF Documents|*.pdf";
             if (saveDialog.ShowDialog() == DialogResult.OK)
             {
-                // Save text as PDF logic here
+                File.WriteAllText(saveDialog.FileName, text);
                 MessageBox.Show("File saved successfully.");
             }
             this.Close();
