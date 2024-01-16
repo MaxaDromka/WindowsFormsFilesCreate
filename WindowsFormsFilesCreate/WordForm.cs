@@ -33,6 +33,44 @@ namespace WindowsFormsFilesCreate
                     Paragraph para = body.AppendChild(new Paragraph());
                     Run run = para.AppendChild(new Run());
                     run.AppendChild(new Text(text));
+
+                    // Добавляем дополнительные элементы
+                    Table table = body.AppendChild(new Table());
+                    table.AppendChild(new TableRow());
+                    TableCell cell = table.AppendChild(new TableCell());
+                    cell.AppendChild(new Paragraph());
+                    run = cell.AppendChild(new Run());
+                    run.AppendChild(new Text("Заказчик:"));
+                    run = cell.AppendChild(new Run());
+                    run.AppendChild(new Text("Адрес проведения работ:"));
+                    run = cell.AppendChild(new Run());
+                    run.AppendChild(new Text("Место установки:"));
+                    run = cell.AppendChild(new Run());
+                    run.AppendChild(new Text("Заменяемый прибор:"));
+                    run = cell.AppendChild(new Run());
+                    run.AppendChild(new Text("- тип – "));
+                    run = cell.AppendChild(new Run());
+                    run.AppendChild(new Text("- заводской номер – "));
+                    run = cell.AppendChild(new Run());
+                    run.AppendChild(new Text("- дата выпуска – "));
+                    run = cell.AppendChild(new Run());
+                    run.AppendChild(new Text("- показания прибора – "));
+                    run = cell.AppendChild(new Run());
+                    run.AppendChild(new Text("Установленный прибор:"));
+                    run = cell.AppendChild(new Run());
+                    run.AppendChild(new Text("- тип – "));
+                    run = cell.AppendChild(new Run());
+                    run.AppendChild(new Text("- заводской номер – "));
+                    run = cell.AppendChild(new Run());
+                    run.AppendChild(new Text("- дата выпуска – "));
+                    run = cell.AppendChild(new Run());
+                    run.AppendChild(new Text("- показания прибора – "));
+                    run = cell.AppendChild(new Run());
+                    run.AppendChild(new Text("- дата монтажа – "));
+                    run = cell.AppendChild(new Run());
+                    run.AppendChild(new Text("Работы проведены в соответствии с условиями договора."));
+                    run = cell.AppendChild(new Run());
+                    run.AppendChild(new Text("Замену произвёл:"));
                 }
                 MessageBox.Show("Файл успешно создан.");
             }
