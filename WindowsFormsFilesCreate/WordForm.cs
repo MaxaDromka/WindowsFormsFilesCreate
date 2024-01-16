@@ -1,8 +1,10 @@
-﻿using System;
-using DocumentFormat.OpenXml;
-using System.Windows.Forms;
+﻿using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
+using System;
+using System.IO;
+using System.Text;
+using System.Windows.Forms;
 
 namespace WindowsFormsFilesCreate
 {
@@ -20,66 +22,57 @@ namespace WindowsFormsFilesCreate
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string text = textBox1.Text;
-            SaveFileDialog saveDialog = new SaveFileDialog();
-            saveDialog.Filter = "Word Document|*.docx";
-            if (saveDialog.ShowDialog() == DialogResult.OK)
-            {
-                using (WordprocessingDocument wordDocument = WordprocessingDocument.Create(saveDialog.FileName, WordprocessingDocumentType.Document))
-                {
-                    MainDocumentPart mainPart = wordDocument.AddMainDocumentPart();
-                    mainPart.Document = new Document();
-                    Body body = mainPart.Document.AppendChild(new Body());
-                    Paragraph para = body.AppendChild(new Paragraph());
-                    Run run = para.AppendChild(new Run());
-                    run.AppendChild(new Text(text));
+            string templateFilePath = "D:\\Загрузки\\Текстовый документ.txt"; // Укажите путь к вашему шаблону
 
-                    // Добавляем дополнительные элементы
-                    Table table = body.AppendChild(new Table());
-                    table.AppendChild(new TableRow());
-                    TableCell cell = table.AppendChild(new TableCell());
-                    cell.AppendChild(new Paragraph());
-                    run = cell.AppendChild(new Run());
-                    run.AppendChild(new Text("Заказчик:"));
-                    run = cell.AppendChild(new Run());
-                    run.AppendChild(new Text("Адрес проведения работ:"));
-                    run = cell.AppendChild(new Run());
-                    run.AppendChild(new Text("Место установки:"));
-                    run = cell.AppendChild(new Run());
-                    run.AppendChild(new Text("Заменяемый прибор:"));
-                    run = cell.AppendChild(new Run());
-                    run.AppendChild(new Text("- тип – "));
-                    run = cell.AppendChild(new Run());
-                    run.AppendChild(new Text("- заводской номер – "));
-                    run = cell.AppendChild(new Run());
-                    run.AppendChild(new Text("- дата выпуска – "));
-                    run = cell.AppendChild(new Run());
-                    run.AppendChild(new Text("- показания прибора – "));
-                    run = cell.AppendChild(new Run());
-                    run.AppendChild(new Text("Установленный прибор:"));
-                    run = cell.AppendChild(new Run());
-                    run.AppendChild(new Text("- тип – "));
-                    run = cell.AppendChild(new Run());
-                    run.AppendChild(new Text("- заводской номер – "));
-                    run = cell.AppendChild(new Run());
-                    run.AppendChild(new Text("- дата выпуска – "));
-                    run = cell.AppendChild(new Run());
-                    run.AppendChild(new Text("- показания прибора – "));
-                    run = cell.AppendChild(new Run());
-                    run.AppendChild(new Text("- дата монтажа – "));
-                    run = cell.AppendChild(new Run());
-                    run.AppendChild(new Text("Работы проведены в соответствии с условиями договора."));
-                    run = cell.AppendChild(new Run());
-                    run.AppendChild(new Text("Замену произвёл:"));
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.Filter = "Text Document (*.txt)|*.txt";
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string saveFilePath = saveFileDialog.FileName; // Получаем выбранный пользователем путь для сохранения заполненного документа
+                        string[] textBoxValues = new string[]
+                        {
+                        textBox1.Text, textBox2.Text, textBox3.Text, textBox4.Text, textBox5.Text,
+                        textBox6.Text, textBox7.Text, textBox8.Text, textBox9.Text, textBox10.Text,
+                        textBox11.Text, textBox12.Text, textBox13.Text, textBox14.Text, textBox15.Text,
+                        textBox16.Text,textBox17.Text
+                        };
+                        string documentText = File.ReadAllText(templateFilePath);
+
+                        documentText = documentText.Replace("____________________________", textBoxValues[0]);
+                        documentText = documentText.Replace("____________________________", textBoxValues[1]);                    
+                        documentText = documentText.Replace("Адрес проведения работ ________________________________________________", "Адрес проведения работ: " + textBoxValues[2] + ".");
+                        documentText = documentText.Replace("Место установки ____________________________________________.", "Место установки: " + textBoxValues[3] + ".");
+                        documentText = documentText.Replace("Заменяемый прибор: ", "Заменяемый прибор: " + textBoxValues[4] + ".");
+                        documentText = documentText.Replace("- тип – ____________________________________________;", "- тип – " + textBoxValues[5] + ".");
+                        documentText = documentText.Replace("- заводской номер – ____________________________________________;", "- заводской номер – " + textBoxValues[6] + ".");
+                        documentText = documentText.Replace("- дата выпуска – ____________________________________________;", "- дата выпуска – " + textBoxValues[7] + ".");
+                        documentText = documentText.Replace("- показания прибора – ____________________________________________.", "- показания прибора – " + textBoxValues[8] + ".");
+                        documentText = documentText.Replace("Установленный прибор: ", "Установленный прибор: " + textBoxValues[9] + ".");
+                        documentText = documentText.Replace("- тип – ____________________________________________;", "- тип – " + textBoxValues[10] + ".");
+                        documentText = documentText.Replace("- заводской номер – ____________________________________________;", "- заводской номер – " + textBoxValues[11] + ".");
+                        documentText = documentText.Replace("- дата выпуска – ____________________________________________;", "- дата выпуска –" + textBoxValues[12] + ".");
+                        documentText = documentText.Replace("- показания прибора – ____________________________________________;", "- показания прибора –" + textBoxValues[13] + ".");
+                        documentText = documentText.Replace("- дата монтажа – ____________________________________________.", "- дата монтажа –" + textBoxValues[14] + ".");
+                        documentText = documentText.Replace("Замену произвёл: __________________________________________________________.", "Замену произвёл: " + textBoxValues[15] + ".");
+                        documentText = documentText.Replace("_", "");
+
+                    File.WriteAllText(saveFilePath, documentText); 
+
+                    MessageBox.Show("Файл успешно создан.");
                 }
-                MessageBox.Show("Файл успешно создан.");
             }
-            this.Close();
+
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void textBox9_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
